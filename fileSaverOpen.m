@@ -1,6 +1,10 @@
 function [ fid,falseMsg ] = fileSaverOpen( fileName, folderName, permission )
 
 global RobotCanSay;
+if isempty(RobotCanSay)
+    RobotCanSay=0;
+end
+
 robot = 'FileSaver';
     function say(varargin)
         if RobotCanSay && exist('robotSay','file')
