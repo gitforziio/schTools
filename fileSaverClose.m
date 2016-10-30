@@ -23,7 +23,7 @@ try
         say('Try closing all files...');
         st = fclose('all');
     end
-    say('File now (should be) closed...');
+    say('File now (should be) closed...[st:%s]',st);
 catch exc
     rethrow(exc)
 end

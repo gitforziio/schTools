@@ -30,6 +30,7 @@ robot = 'DAT-file-Reader';
         end
     end
 
+say(' ');
 say('%s is ready.',robot);
 
 %--------------------------------------------------------------------------
@@ -44,10 +45,10 @@ end
 
 % does file exist?
 if exist(filepath,'file')==2
-    say('Successfully found file [%s]. Fine.',filepath);
     [fpath, fname, fext] = fileparts(filepath);
     dat.filepath=fpath;
     dat.filename=[fname,fext];
+    say('Successfully found file [%s]. Fine.',[fname,fext]);
 else
     say('File [%s] not found.',filepath);
     dat.error=1;
@@ -71,6 +72,7 @@ if exist('getNameInfo','file')
     dat.info=getNameInfo(filepath);
 else
     di.errormsg='Can not get info from file name, because function getNameInfo() is not found.';
+    say('%s',di.errormsg);
     dat.info=di;
 end
 
@@ -82,8 +84,8 @@ dat.subject=[];
 dat.eline=[];
 
 % start to read
-say('Start to read DAT file [%s]...',filepath);
-say('Reading data, please wait...');
+say('  Start to read DAT file [%s]...',[fname,fext]);
+say('    Reading data, please wait...');
 
 
 
@@ -112,14 +114,14 @@ while true
         
         if strcmp(eline.linetype,'title')
             lasttitle=eline.content;
-            say('Now reading [%s]...',lasttitle)
+            say('    Now reading [%s]...',lasttitle)
         end
     end
 end
 
 
 % conbine data struct
-say('Almost done, combining data...')
+say('  Almost done, combining data...')
 
 rn=size(dat.ad,1);
 cn=size(dat.labels,2);
@@ -164,7 +166,7 @@ try
         dat.errormsg='Something wrong while closing file.';
         st = fclose('all');
     end
-    say('File now (should be) closed...[st:%s]',st);
+    say('File now (should be) closed...[st=%d]',st);
 catch exc
     rethrow(exc)
 end
@@ -174,6 +176,7 @@ end
 dat.error=0;
 say('Done.');
 say('%s''s work finished.',robot);
+say(' ');
 
 end
 

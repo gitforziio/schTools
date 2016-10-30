@@ -8,7 +8,7 @@ if RobotCanSay
     
     fidDefult       = 1       ;
     robotNameDefult = 'ROBOT' ;
-    sayingDefult    = 'Hi~?'  ;
+    sayingDefult    = ' '  ;
     
     s=varargin;
     l=length(s);

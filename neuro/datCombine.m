@@ -34,8 +34,12 @@ datc.subject.Type       = data.subject.Type;
 datc.subject.Points     = data.subject.Points;
 datc.subject.Xmin       = data.subject.Xmin;
 datc.subject.Sweeps     = data.subject.Sweeps;
-datc.subject.Accepted   = mean([data.subject.Accepted,datb.subject.Accepted]);
-datc.subject.Rejected   = mean([data.subject.Rejected,datb.subject.Rejected]);
+acpta=str2double(data.subject.Accepted);
+acptb=str2double(datb.subject.Accepted);
+rjcta=str2double(data.subject.Rejected);
+rjctb=str2double(datb.subject.Rejected);
+datc.subject.Accepted   = num2str(mean([acpta,acptb]));
+datc.subject.Rejected   = num2str(mean([rjcta,rjctb]));
 datc.subject.Domain     = data.subject.Domain;
 datc.subject.Rows       = data.subject.Rows;
 
