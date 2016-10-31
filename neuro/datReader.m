@@ -105,7 +105,7 @@ while true
         elseif strcmp(eline.linetype,'data')&&strcmp(lasttitle,'Standard Deviation Data')
             dat.sd=vertcat(dat.sd,mline);
         elseif strcmp(eline.linetype,'meta')
-            dat.subject= setfield(dat.subject,eline.content.metaname,eline.content.metavalue);
+            dat.subject.(eline.content.metaname)=eline.content.metavalue;
         elseif strcmp(eline.linetype,'labels')
             dat.labels=eline.content;
         else

@@ -8,8 +8,8 @@ datc.sdStruct     = [];
 
 for i=1:size(data.adStruct,2)
     
-    newadStruct   = structOverride(data.adStruct(i), datb.adStruct(i));
-    newsdStruct   = structOverride(data.sdStruct(i), datb.sdStruct(i));
+    newadStruct   = structCombine(data.adStruct(i), datb.adStruct(i));
+    newsdStruct   = structCombine(data.sdStruct(i), datb.sdStruct(i));
     
     datc.adStruct = [datc.adStruct,newadStruct];
     datc.sdStruct = [datc.sdStruct,newsdStruct];
@@ -54,4 +54,3 @@ datc.fileB        = datb.filename;
 % done
 disp('Function [datCombine()] done.');
 end
-
