@@ -1,6 +1,11 @@
 function [nx, ny, textbounds] =  drawCenteredTextInRect(wptr,tstring,rect,color)
 
+
 global RobotCanSay;
+if isempty(RobotCanSay)
+    RobotCanSay=0;
+end
+
 robot = 'TextDrawer';
     function say(varargin)
         if RobotCanSay && exist('robotSay','file')
