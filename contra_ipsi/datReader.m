@@ -105,7 +105,7 @@ while true
         elseif strcmp(eline.linetype,'data')&&strcmp(lasttitle,'Standard Deviation Data')
             dat.sd=vertcat(dat.sd,mline);
         elseif strcmp(eline.linetype,'meta')
-            dat.subject= setfield(dat.subject,eline.content.metaname,eline.content.metavalue);
+            dat.subject.(eline.content.metaname)=eline.content.metavalue;
         elseif strcmp(eline.linetype,'labels')
             dat.labels=eline.content;
         else
@@ -136,16 +136,20 @@ for i=1:rn
         prelabel=dat.labels{j};
         [~,count]=sscanf(dat.labels{j}(1),'%d');
         if count==1
-            newprelabel=['channel_',prelabel];
-            prelabel=newprelabel;
+            newprelabel  = ['channel_',prelabel];
+            prelabel     = newprelabel;
         end
-        adnewline=[adnewline,{prelabel,dat.ad(i,j)}];
-        sdnewline=[sdnewline,{prelabel,dat.sd(i,j)}];
+        tmp              = [adnewline,{prelabel,dat.ad(i,j)}];
+        adnewline        = tmp;
+        tmp              = [sdnewline,{prelabel,dat.sd(i,j)}];
+        sdnewline        = tmp;
     end
-    adnewlinestruct=struct(adnewline{:});
-    adStruct=[adStruct,adnewlinestruct];
-    sdnewlinestruct=struct(sdnewline{:});
-    sdStruct=[sdStruct,sdnewlinestruct];
+    adnewlinestruct      = struct(adnewline{:});
+    tmp                  = [adStruct,adnewlinestruct];
+    adStruct             = tmp;
+    sdnewlinestruct      = struct(sdnewline{:});
+    tmp                  = [sdStruct,sdnewlinestruct];
+    sdStruct             = tmp;
 end
 
 dat.adStruct=adStruct;

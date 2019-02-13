@@ -43,14 +43,15 @@ if isfield(info,'ContraOrIpsi')
     spans=[spans,info.ContraOrIpsi];
 end
 
-disp(spans);
 
 span='';
 for i=1:length(spans)
     if i==1
-        span=[span,spans{i}];
+        tmp=[span,spans{i}];
+        span=tmp;
     elseif ~isempty(spans{i})
-        span=[span,'_',spans{i}];
+        tmp=[span,'_',spans{i}];
+        span=tmp;
     end
 end
 

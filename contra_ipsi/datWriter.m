@@ -1,10 +1,12 @@
-function [result]=datWriter(dat,filepath)
+function [err,exc]=datWriter(dat,filepath)
 %datWriter ....
 %   ....
 %
 %   dat: the structure of the dat file to read.
 
+exc={};
 
+%% Logger
 %--------------------------------------------------------------------------
 
 % Log or not
@@ -29,18 +31,38 @@ robot = 'DAT-file-Writer';
 say(' ');
 say('%s is ready.',robot);
 
+
+%% Open
 %--------------------------------------------------------------------------
+say('Try openning file...');
+
+try
+    [fid,falseMsg]=fopen(filepath,'w');
+    if fid==-1
+        say('!!!WARNING!!!: [ %s ]',falseMsg);
+        err=1;
+        return
+    end
+    say('File now created and opened...');
+catch exc
+    err=1;
+    return
+end
 
 
+
+%% Writer
 %--------------------------------------------------------------------------
 
 % [Subject]
 say('Writing [Subject]...');
 fprintf(fid,'[Subject]\t\r\n');
 
+fns=fieldnames(dat.subject);
+
 for i=1:length(fns)
-    fni=fns(i);
-    vi=getfield(dat,fni);
+    fni=fns{i};
+    vi=dat.subject.(fni);
     fprintf(fid,'[%s]\t%s\n',fni,vi);
 end
 
@@ -48,10 +70,11 @@ end
 say('Writing [Electrode Labels]...');
 fprintf(fid,'[Electrode Labels]\t\r\n');
 
-channels=length(dat.labels);
+labels=dat.labels;
+channels=length(labels);
 
 for i=1:channels
-    span=dat.labels{i};
+    span=labels{i};
     fprintf(fid,'[%s]\t',span);
 end
 fprintf(fid,'\n');
@@ -76,16 +99,34 @@ fprintf(fid,'\n');
 say('Writing [Average Data]...');
 fprintf(fid,'[Average Data]\t\r\n');
 
-fprintf(fid,'testing...\n');
+ad=dat.adStruct;
+lad=length(ad);
+for i=1:lad
+    for m=1:channels
+        newcell=num2str(ad(i).(labels{m}));
+        fprintf(fid,'%s\t',newcell);
+    end
+    fprintf(fid,'\n');
+end
 
 
 % [Standard Deviation Data]
 say('Writing [Standard Deviation Data]...');
 fprintf(fid,'[Standard Deviation Data]\t\r\n');
 
-fprintf(fid,'testing...\n');
+sd=dat.adStruct;
+lsd=length(sd);
+for i=1:lsd
+    for m=1:channels
+        newcell=num2str(sd(i).(labels{m}));
+        fprintf(fid,'%s\t',newcell);
+    end
+    fprintf(fid,'\n');
+end
+fprintf(fid,'\n');
 
 
+%% Endding
 %--------------------------------------------------------------------------
 
 % close file
@@ -105,7 +146,7 @@ end
 
 
 % finish
-dat.error=0;
+err=0;
 say('Done.');
 say('%s''s work finished.',robot);
 say(' ');
